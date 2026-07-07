@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .server-info {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            border-left: 5px solid #667eea;
+            text-align: left;
+        }
+        
+        .server-info p {
+            margin: 8px 0;
+            color: #2c3e50;
+            font-size: 0.95em;
+        }
+        
+        .server-info strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .ip-box {
+            background: #2c3e50;
+            color: #00ff88;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .ip-label {
+            color: #8e9eab;
+            font-size: 0.8em;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95em;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .feature-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            color: #2c3e50;
+        }
+        
+        .feature-item span {
+            font-size: 1.5em;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .footer {
+            margin-top: 25px;
+            color: #7f8c8d;
+            font-size: 0.85em;
+            border-top: 1px solid #ecf0f1;
+            padding-top: 20px;
+        }
+        
+        .status {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #27ae60;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .ip-box {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🏠</div>
+        <h1>{{ title }}</h1>
+        
+        <div class="highlight">
+            <strong>🔗 Доступ через:</strong> 
+            {% if gateway_ip %}
+                {{ gateway_ip }}
+            {% else %}
+                Прямий доступ до сервера
+            {% endif %}
+        </div>
+        
+        <div class="server-info">
+            <p><strong>🖥️ Ім'я сервера:</strong> {{ hostname }}</p>
+            <p><strong>🔢 Внутрішній IP:</strong> {{ server_ip }}</p>
+            <p><strong>🌐 Ваш IP:</strong> {{ client_ip }}</p>
+            <p><strong>📅 Час:</strong> {{ timestamp }}</p>
+            <p><strong>📦 Версія:</strong> {{ version }}</p>
+            <p><strong>🔄 Статус:</strong> <span class="status"></span> Активний</p>
+        </div>
+        
+        <!-- Відображення IP інформації -->
+        <div class="ip-box">
+            <span class="ip-label">🌐 Application Gateway Public IP:</span>
+            <span>{{ client_ip }}</span>
+        </div>
+        
+        <div class="features">
+            <div class="feature-item">
+                <span>🚀</span>
+                Швидкий доступ
+            </div>
+            <div class="feature-item">
+                <span>🔒</span>
+                Безпечне з'єднання
+            </div>
+            <div class="feature-item">
+                <span>⚡</span>
+                Висока продуктивність
+            </div>
+            <div class="feature-item">
+                <span>🔄</span>
+                Автомасштабування
+            </div>
+        </div>
+        
+        <div class="badge">✅ Frontend Pool - Azure VMSS</div>
+        
+        <div class="footer">
+            <p>Azure Application Gateway - Path-based Routing</p>
+            <p style="margin-top: 5px; font-size: 0.8em;">Створено з ❤️ з використанням Django</p>
+        </div>
+    </div>
+</body>
+</html>
